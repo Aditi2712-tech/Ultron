@@ -103,3 +103,127 @@ body{
     display: inline-block;
 }
 
+#TextInput{
+    background-color: #181818a6;
+    border-color: rgba(70, 70, 193, 0.716); /*edit colors*/
+    box-shadow: 0 0 30px rgba(86, 70, 222, 0.83), inset 0 0 0px rgb(25, 0, 255);
+    border-radius: 15px;
+    color: whitesmoke; 
+    padding: 6px 20px;
+    margin: 0px 20%;
+    /*gpt fix*/
+    display: flex;
+    align-items: center;
+
+}
+
+.input-field {
+    background-color: transparent ;
+    border: none;
+    height: 32px;
+    width: 95%;
+    outline: none;
+    color: whitesmoke;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: bolder;
+    font-size:large;
+
+}
+
+.glow-on-hover{
+    width: 35px;
+    height: 35px;
+    border: none;
+    outline: none;
+    color: #fff;
+    background-color: #111;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 20px;
+    padding: 0px;
+    margin-left: 15px;
+}
+
+.glow-on-hover:before{
+    content:  '';
+    background: linear-gradient(45deg, #ff0000, #ff7300, #ffe600, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+}
+
+.glow-on-hover:active{
+    color: #181818a8
+}
+
+.glow-on-hover:active:after {
+    background: transparent;
+}
+
+.glow-on-hover:before {
+    opacity: 1;
+}
+
+.glow-on-hover:after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    left: 0;
+    right: 0;
+    border-radius: 10px;
+}
+
+@keyframes glowing {
+    0% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 400% 0;
+    }
+
+    100% {
+        background-position: 0 0;
+    }
+    
+}
+
+
+/*to set icons in center of animation borders*/
+.glow-on-hover{
+    width: 35px;
+    height: 35px;
+    border: none;
+    outline: none;
+    color: #fff;
+    background-color: #111;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+
+    margin-left: 15px;
+}
+
+.glow-on-hover i{
+    font-size: 18px;
+    line-height: 1;
+}

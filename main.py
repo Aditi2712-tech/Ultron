@@ -1,5 +1,5 @@
 import os
-import eel
+import eel #connecting backend to frontend using this lib
 eel.init("www") #telling eel the dir containing frontend
 
 os.system("start msedge.exe --app=\"http://localhost:8000/index.html\"")

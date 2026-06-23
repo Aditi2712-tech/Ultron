@@ -33,49 +33,73 @@ href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"/
 
 <body>
 
-    <section id="Oval" class="mb-4">
 
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-10">
-                <div class="d-flex justify-content-center align-items-center" style="height:80vh">
+    <div class="container">
 
-                    <canvas id="canvasOne" width="700" height="420" style="position: absolute;"></canvas>
+        <section id="Oval" class="mb-4" >
 
-                    <div id="UltronWorld">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <div class="d-flex justify-content-center align-items-center" style="height:80vh">
 
-                        <div class="square">
-                            <span class="circle"></span>
-                            <span class="circle"></span>
-                            <span class="circle"></span>
-                            <span class="circle"></span>
+                        <canvas id="canvasOne" width="700" height="420" style="position: absolute;"></canvas>
+
+                        <div id="UltronWorld">
+
+                            <div class="square">
+                                <span class="circle"></span>
+                                <span class="circle"></span>
+                                <span class="circle"></span>
+                                <span class="circle"></span>
+                            </div>
+
                         </div>
 
                     </div>
+                    <div class="text-center">
 
-                </div>
-                <div class="text-center">
+        <h5 class="text-light text">Ask me anything</h5>
 
-    <h5 class="text-light text">Ask me anything</h5>
+        <div id="TextInput" class="d-flex justify-content-center mt-3">
 
-    <div id="TextInput" class="d-flex justify-content-center mt-3">
+            <input type="text" class="input-field"
+                name="chatbox"
+                id="chatbox"
+                placeholder="Type here...">
+                <button id="MicBtn" class="glow-on-hover"><i class="bi bi-mic-fill"></i></button>
+                <button id="ChatBtn" class="glow-on-hover"><i class="bi bi-chat-left-fill"></i></button>
+                <button id="SettingBtn" class="glow-on-hover"><i class="bi bi-gear-wide"></i></button>
 
-        <input type="text" class="input-field"
-               name="chatbox"
-               id="chatbox"
-               placeholder="Type here...">
-               <button id="MicBtn" class="glow-on-hover"><i class="bi bi-mic-fill"></i></button>
-               <button id="ChatBtn" class="glow-on-hover"><i class="bi bi-chat-left-fill"></i></button>
-               <button id="SettingBtn" class="glow-on-hover"><i class="bi bi-gear-wide"></i></button>
+        </div>
 
     </div>
-
-</div>
+                </div>
+                <div class="col-md-1"></div>
             </div>
-            <div class="col-md-1"></div>
-        </div>
-    </section>
+        </section>
 
+        <section id="Siriwave" class="mb-4" hidden>
+            
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="d-flex flex-column justify-content-center align-items-center text-center"
+     style="height: 100vh;">
+                            
+                            <div class="">
+                                <div>
+                                    <p class="text-light mb-4 siri-message">Lorem ipsum dolor sit amet consectetur adipisicing elit!</p>
+                            </div>
+                            
+                            <div id="siri-container"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
 
     <!--Jquery  -->
    	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -93,6 +117,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"/
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
     <script src="script.js"></script>
+
+    <!--Siri Wave-->
+    <script src="https://unpkg.com/siriwave/dist/siriwave.umd.min.js"></script>
 
     <!--Texallte-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fittext/1.2.0/jquery.fittext.min.js"></script>

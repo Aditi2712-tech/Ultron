@@ -1,17 +1,30 @@
 import os
-import threading #for playing audios in different threads
-import eel #connecting backend to frontend using this lib
+import threading
+import eel
 
 from engine.features import *
 
-eel.init("www") #telling eel the dir containing frontend
+# initialize eel
+eel.init("www")
 
-# play first half
+# PLAY FIRST SOUND FULLY
 playStartupSound()
 
-os.system("start msedge.exe --app=\"http://localhost:8000/index.html\"")
+# OPEN APP
+os.system(
+    'start msedge.exe --app="http://localhost:8000/index.html"'
+)
 
-# play second half in background
-threading.Thread(target=playRemainingSound, daemon=True).start()
+# PLAY SECOND SOUND IN BACKGROUND
+threading.Thread(
+    target=playRemainingSound,
+    daemon=True
+).start()
 
-eel.start("index.html", mode=None, host='localhost', block=True)
+# START EEL
+eel.start(
+    "index.html",
+    mode=None,
+    host="localhost",
+    block=True
+)

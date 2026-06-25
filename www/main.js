@@ -40,7 +40,7 @@ $(document).ready(function () {
         eel.playAssisstantSound()
         $("#Oval").attr("hidden", true);
         $("#Siriwave").attr("hidden", false);
-        eel.takecommand()()
+        eel.allCommand()()
         
     });
 

@@ -121,6 +121,8 @@ body{
 
 .text{
     display: inline-block;
+    font-family: "Exo2";
+    font-size: 25px;
 }
 
 #TextInput{

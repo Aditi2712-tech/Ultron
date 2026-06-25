@@ -3,6 +3,8 @@ import threading
 import eel
 
 from engine.features import *
+from engine.command import *
+
 
 # initialize eel
 eel.init("www")

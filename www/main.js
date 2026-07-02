@@ -58,3 +58,20 @@ $(document).ready(function () {
     document.addEventListener('keyup', doc_keyUp, false);
 
 });
+
+
+eel.expose(showSiriWave);
+function showSiriWave() {
+    eel.playAssisstantSound();
+    $("#Oval").attr("hidden", true);
+    $("#Siriwave").attr("hidden", false);
+    eel.allCommand()();
+}
+
+function doc_keyUp(e) {
+    if (e.key === 'u' && e.altKey) {
+        showSiriWave();   // Alt+U still works manually
+    }
+}
+
+document.addEventListener('keyup', doc_keyUp, false);

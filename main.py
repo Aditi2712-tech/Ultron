@@ -5,7 +5,7 @@ import eel
 from engine.features import *
 from engine.command import *
 
-
+from engine.state import hotword_paused
 
 def start():
     eel.init("www")

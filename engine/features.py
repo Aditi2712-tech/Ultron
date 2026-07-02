@@ -2,7 +2,6 @@ import pygame
 import eel
 import os
 from engine.config import ASSISTANT_NAME
-from engine.command import *
 import pywhatkit as pkt #playing assistant sound fn
 
 import sqlite3
@@ -10,8 +9,12 @@ import webbrowser
 import pvporcupine
 import pyaudio
 import struct
+import time
 
 from engine.helper import extract_yt_term
+
+from engine.state import hotword_paused
+from engine.speech import speak
 
 
 connection = sqlite3.connect("Ultron.db")
@@ -122,7 +125,10 @@ def hotword():
 
     try:
         # index 0 = wake word, index 1 = home word
-        porcupine = pvporcupine.create(keywords=["blueberry", "terminator"])
+        porcupine = pvporcupine.create(
+    keywords=["terminator", "blueberry"],
+    sensitivities=[0.7, 0.5]   # bump blueberry up, leave terminator as-is
+)
         paud = pyaudio.PyAudio()
         audio_stream = paud.open(
             rate=porcupine.sample_rate,
@@ -132,10 +138,17 @@ def hotword():
             frames_per_buffer=porcupine.frame_length
         )
 
-        while True:  # keep listening forever
+        while True:
+            if hotword_paused.is_set():
+                time.sleep(0.1)
+                continue
+
             pcm = audio_stream.read(porcupine.frame_length, exception_on_overflow=False)
             pcm = struct.unpack_from("h" * porcupine.frame_length, pcm)
             keyword_index = porcupine.process(pcm)
+
+            if keyword_index != -1:
+                print("Detected index:", keyword_index)
 
             if keyword_index == 0:
                 print("Wake hotword detected")

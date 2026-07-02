@@ -44,20 +44,22 @@ $(document).ready(function () {
         
     });
 
-    function doc_keyUp(e) {
-// this would test for whichever key is 40 (down arrow) and windows key at same time
-
-        if (e.key === 'u' && e.altKey) { //metakey is window
-            eel.playAssisstantSound() //assistant sound activated
-            $("#Oval").attr("hidden", true); //oval hidden
-            $("#Siriwave").attr("hidden", false); //siriwave visible
-            eel.allCommand()()
-        }
-    }
-
-    document.addEventListener('keyup', doc_keyUp, false);
-
 });
+
+//     function doc_keyUp(e) {
+// // this would test for whichever key is 40 (down arrow) and windows key at same time
+
+//         if (e.key === 'u' && e.altKey) { //metakey is window
+//             eel.playAssisstantSound() //assistant sound activated
+//             $("#Oval").attr("hidden", true); //oval hidden
+//             $("#Siriwave").attr("hidden", false); //siriwave visible
+//             eel.allCommand()()
+//         }
+//     }
+
+//     document.addEventListener('keyup', doc_keyUp, false);
+
+// });
 
 
 eel.expose(showSiriWave);

@@ -48,7 +48,7 @@ def allCommand():
         elif "on youtube" in query:
             PlayYoutube(query)
 
-        elif "send message" in query or "phone call" in query or "video call" in query or ("call" in query and "video" not in query):
+        elif "message" in query or "call" in query:
             from engine.features import findContact, whatsApp
             flag = ""
             contact_no, name = findContact(query)
@@ -56,15 +56,15 @@ def allCommand():
 
             if(contact_no != 0):
 
-                if "send message" in query:
+                if "message" in query:
                     flag = 'message'
                     speak("what message to send")
                     query = takecommand()
 
-                elif "phone call" in query:
-                    flag = 'call'
-                else:
+                elif "video" in query:
                     flag = 'video call'
+                else:
+                    flag = 'call'
 
                 whatsApp(contact_no, query, flag, name)
             else:

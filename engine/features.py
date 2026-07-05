@@ -11,7 +11,7 @@ import pyaudio
 import struct
 import time
 
-from engine.helper import extract_yt_term
+from engine.helper import extract_yt_term, remove_words
 
 from engine.state import hotword_paused
 from engine.speech import speak
@@ -143,23 +143,28 @@ def hotword():
                 time.sleep(0.1)
                 continue
 
-            pcm = audio_stream.read(porcupine.frame_length, exception_on_overflow=False)
-            pcm = struct.unpack_from("h" * porcupine.frame_length, pcm)
-            keyword_index = porcupine.process(pcm)
+            try:
+                pcm = audio_stream.read(porcupine.frame_length, exception_on_overflow=False)
+                pcm = struct.unpack_from("h" * porcupine.frame_length, pcm)
+                keyword_index = porcupine.process(pcm)
 
-            if keyword_index != -1:
-                print("Detected index:", keyword_index)
+                if keyword_index != -1:
+                    print("Detected index:", keyword_index)
 
-            if keyword_index == 0:
-                print("Wake hotword detected")
-                eel.showSiriWave()()
+                if keyword_index == 0:
+                    print("Wake hotword detected")
+                    eel.showSiriWave()()
 
-            elif keyword_index == 1:
-                print("Home hotword detected")
-                eel.ShowHood()()
+                elif keyword_index == 1: #not working right now even after changing the audio sensitivities
+                    print("Home hotword detected")
+                    eel.ShowHood()()
+
+            except Exception as e:
+                print("Hotword loop error:", e)
+                continue
 
     except Exception as e:
-        print("Hotword error:", e)
+        print("Hotword setup error:", e)
     finally:
         if porcupine is not None:
             porcupine.delete()
@@ -167,3 +172,27 @@ def hotword():
             audio_stream.close()
         if paud is not None:
             paud.terminate()
+
+
+
+            
+# finding contact
+def findContact(query):
+    
+    
+    words_to_remove = [ASSISTANT_NAME, 'make', 'a', 'to', 'phone', 'call', 'send', 'message', 'wahtsapp', 'video']
+    query = remove_words(query, words_to_remove)
+
+    try:
+        query = query.strip().lower()
+        cursor.execute("SELECT mobile_no FROM contacts WHERE LOWER(name) LIKE ? OR LOWER(name) LIKE ?", ('%' + query + '%', query + '%'))
+        results = cursor.fetchall()
+        print(results[0][0])
+        mobile_number_str = str(results[0][0])
+        if not mobile_number_str.startswith('+91'):
+            mobile_number_str = '+91' + mobile_number_str
+
+        return mobile_number_str, query
+    except:
+        speak('not exist in contacts')
+        return 0, 0

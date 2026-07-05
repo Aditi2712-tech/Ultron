@@ -21,7 +21,7 @@ from engine.state import hotword_paused
 from engine.speech import speak
 
 
-connection = sqlite3.connect("Ultron.db")
+connection = sqlite3.connect("Ultron.db", check_same_thread=False)
 cursor = connection.cursor()
 
 # initialize pygame mixer
@@ -192,12 +192,13 @@ def findContact(query):
         cursor.execute("SELECT mobile_no FROM contacts WHERE LOWER(name) LIKE ? OR LOWER(name) LIKE ?", ('%' + query + '%', query + '%'))
         results = cursor.fetchall()
         print(results[0][0])
-        mobile_number_str = str(results[0][0])
+        mobile_number_str = str(results[0][0]).replace(" ", "").replace("-", "")
         if not mobile_number_str.startswith('+91'):
             mobile_number_str = '+91' + mobile_number_str
 
         return mobile_number_str, query
-    except:
+    except Exception as e:
+        print("findContact error:", e)
         speak('not exist in contacts')
         return 0, 0
 
@@ -207,16 +208,16 @@ def findContact(query):
 def whatsApp(mobile_no, message, flag, name):
 
     if flag == 'message':
-        target_tab = 15
+        target_tab = 14
         ultron_message = "message send successfully to "+name
 
     elif flag == 'call':
-        target_tab = 9
+        target_tab = 8
         message = ''
         ultron_message = "calling to "+name
 
     else:
-        target_tab = 8
+        target_tab = 7
         message = ''
         ultron_message = "staring video call with "+name
 

@@ -45,6 +45,24 @@ def allCommand():
             openCommand(query)
         elif "on youtube" in query:
             PlayYoutube(query)
+        
+        elif "send message" in query or "phone call" in query or "video call" in query:
+            from engine.features import findContact, whatsApp
+            flag = ""
+            contact_no, name = findContact(query)
+            if(contact_no != 0):
+
+                if "send message" in query:
+                    flag = 'message'
+                    speak("what message to send")
+                    query = takecommand()
+                    
+                elif "phone call" in query:
+                    flag = 'call'
+                else:
+                    flag = 'video call'
+                    
+                whatsApp(contact_no, query, flag, name)
         else:
             print("Not run")
 
@@ -55,6 +73,10 @@ def allCommand():
         hotword_paused.clear()   # let hotword thread resume
 
     eel.ShowHood()
+
+
+
+
 
 
 # import pyttsx3

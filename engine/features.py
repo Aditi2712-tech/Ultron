@@ -218,21 +218,47 @@ def findContact(query):
 
 # whatsapp calling/msg
 
+CALL_ICON_PATH = "www/assets/images/call_icon.png"
+VIDEO_ICON_PATH = "www/assets/images/video_icon.png"
+
+
+def clickIcon(icon_path, label, confidence=0.8, attempts=3, wait_between=1.5):
+    """
+    Search the screen for icon_path and click its center.
+    Retries a few times since WhatsApp may still be rendering.
+    Returns True if clicked, False if never found.
+    """
+    for attempt in range(1, attempts + 1):
+        try:
+            location = pyautogui.locateCenterOnScreen(icon_path, confidence=confidence)
+        except Exception as e:
+            logging.exception(f"clickIcon error while searching for {label} (attempt {attempt})")
+            location = None
+
+        if location is not None:
+            logging.info(f"clickIcon: found {label} at {location} on attempt {attempt}")
+            pyautogui.click(location)
+            return True
+
+        logging.info(f"clickIcon: {label} not found on attempt {attempt}, retrying...")
+        time.sleep(wait_between)
+
+    logging.warning(f"clickIcon: {label} not found after {attempts} attempts")
+    return False
+
+
 def whatsApp(mobile_no, message, flag, name):
 
     logging.info(f"whatsApp called: mobile_no={mobile_no}, message={message}, flag={flag}, name={name}")
 
     if flag == 'message':
-        target_tab = 14
         ultron_message = "message send successfully to "+name
 
     elif flag == 'call':
-        target_tab = 8
         message = ''
         ultron_message = "calling to "+name
 
     else:
-        target_tab = 7
         message = ''
         ultron_message = "staring video call with "+name
 
@@ -256,12 +282,30 @@ def whatsApp(mobile_no, message, flag, name):
     result2 = subprocess.run(full_command, shell=True)
     logging.info(f"Second subprocess.run returncode: {result2.returncode}")
 
-    pyautogui.hotkey('ctrl', 'f')
+    if flag == 'message':
+        # unchanged from the original working version, no extra delay
+        pyautogui.hotkey('ctrl', 'f')
+        for i in range(1, 14):
+            pyautogui.hotkey('tab')
+        pyautogui.hotkey('enter')
+        speak(ultron_message)
 
-    for i in range(1, target_tab):
-        pyautogui.hotkey('tab')
+    elif flag == 'call':
+        # extra render time before searching for the icon
+        time.sleep(2)
+        found = clickIcon(CALL_ICON_PATH, "call icon")
+        if found:
+            speak(ultron_message)
+        else:
+            speak("could not find the call button on screen")
 
-    pyautogui.hotkey('enter')
-    speak(ultron_message)
+    else:
+        # extra render time before searching for the icon
+        time.sleep(2)
+        found = clickIcon(VIDEO_ICON_PATH, "video call icon")
+        if found:
+            speak(ultron_message)
+        else:
+            speak("could not find the video call button on screen")
 
     logging.info("whatsApp function completed")

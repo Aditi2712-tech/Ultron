@@ -1,5 +1,6 @@
 from shlex import quote
 import subprocess
+import logging
 
 import pyautogui
 import pygame
@@ -20,6 +21,12 @@ from engine.helper import extract_yt_term, remove_words
 from engine.state import hotword_paused
 from engine.speech import speak
 
+logging.basicConfig(
+    filename="ultron_log.txt",
+    level=logging.DEBUG,
+    format="%(asctime)s %(levelname)s: %(message)s"
+)
+logging.info("=== features.py loaded ===")
 
 connection = sqlite3.connect("Ultron.db", check_same_thread=False)
 cursor = connection.cursor()
@@ -182,23 +189,29 @@ def hotword():
             
 # finding contact
 def findContact(query):
-    
-    
-    words_to_remove = [ASSISTANT_NAME, 'make', 'a', 'to', 'phone', 'call', 'send', 'message', 'wahtsapp', 'video']
+
+    logging.info(f"findContact called with query: {query}")
+
+    words_to_remove = [ASSISTANT_NAME, 'make', 'a', 'to', 'phone', 'call', 'send', 'message', 'whatsapp', 'video']
     query = remove_words(query, words_to_remove)
+
+    logging.info(f"findContact query after word removal: '{query}'")
 
     try:
         query = query.strip().lower()
         cursor.execute("SELECT mobile_no FROM contacts WHERE LOWER(name) LIKE ? OR LOWER(name) LIKE ?", ('%' + query + '%', query + '%'))
         results = cursor.fetchall()
-        print(results[0][0])
+
+        logging.info(f"findContact DB results: {results}")
+
         mobile_number_str = str(results[0][0]).replace(" ", "").replace("-", "")
         if not mobile_number_str.startswith('+91'):
             mobile_number_str = '+91' + mobile_number_str
 
+        logging.info(f"findContact success: number={mobile_number_str}, name={query}")
         return mobile_number_str, query
     except Exception as e:
-        print("findContact error:", e)
+        logging.exception("findContact error")
         speak('not exist in contacts')
         return 0, 0
 
@@ -206,6 +219,8 @@ def findContact(query):
 # whatsapp calling/msg
 
 def whatsApp(mobile_no, message, flag, name):
+
+    logging.info(f"whatsApp called: mobile_no={mobile_no}, message={message}, flag={flag}, name={name}")
 
     if flag == 'message':
         target_tab = 14
@@ -227,14 +242,20 @@ def whatsApp(mobile_no, message, flag, name):
     # Construct the URL
     whatsapp_url = f"whatsapp://send?phone={mobile_no}&text={encoded_message}"
 
+    logging.info(f"whatsApp URL: {whatsapp_url}")
+
     # Construct the full command
     full_command = f'start "" "{whatsapp_url}"'
 
     # Open WhatsApp with the constructed URL using cmd.exe
-    subprocess.run(full_command, shell=True)
+    result1 = subprocess.run(full_command, shell=True)
+    logging.info(f"First subprocess.run returncode: {result1.returncode}")
+
     time.sleep(5)
-    subprocess.run(full_command, shell=True)
-    
+
+    result2 = subprocess.run(full_command, shell=True)
+    logging.info(f"Second subprocess.run returncode: {result2.returncode}")
+
     pyautogui.hotkey('ctrl', 'f')
 
     for i in range(1, target_tab):
@@ -243,3 +264,4 @@ def whatsApp(mobile_no, message, flag, name):
     pyautogui.hotkey('enter')
     speak(ultron_message)
 
+    logging.info("whatsApp function completed")

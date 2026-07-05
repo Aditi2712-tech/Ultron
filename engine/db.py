@@ -68,7 +68,14 @@ print(results[0][0])
 connection.commit()
 connection.close()
 
-
+# import sqlite3
+# conn = sqlite3.connect("Ultron.db")
+# cur = conn.cursor()
+# cursor.execute("UPDATE contacts SET mobile_no = REPLACE(REPLACE(mobile_no, ' ', ''), '-', '')")
+# cursor.execute("DELETE FROM contacts WHERE name = 'First Name'")  # removes the junk header row
+# connection.commit()
+# connection.close()
+# print("done")
 
 
 

@@ -1,3 +1,7 @@
+from shlex import quote
+import subprocess
+
+import pyautogui
 import pygame
 import eel
 import os
@@ -196,3 +200,45 @@ def findContact(query):
     except:
         speak('not exist in contacts')
         return 0, 0
+
+
+# whatsapp calling/msg
+
+def whatsApp(mobile_no, message, flag, name):
+
+    if flag == 'message':
+        target_tab = 15
+        ultron_message = "message send successfully to "+name
+
+    elif flag == 'call':
+        target_tab = 9
+        message = ''
+        ultron_message = "calling to "+name
+
+    else:
+        target_tab = 8
+        message = ''
+        ultron_message = "staring video call with "+name
+
+    # Encode the message for URL
+    encoded_message = quote(message)
+
+    # Construct the URL
+    whatsapp_url = f"whatsapp://send?phone={mobile_no}&text={encoded_message}"
+
+    # Construct the full command
+    full_command = f'start "" "{whatsapp_url}"'
+
+    # Open WhatsApp with the constructed URL using cmd.exe
+    subprocess.run(full_command, shell=True)
+    time.sleep(5)
+    subprocess.run(full_command, shell=True)
+    
+    pyautogui.hotkey('ctrl', 'f')
+
+    for i in range(1, target_tab):
+        pyautogui.hotkey('tab')
+
+    pyautogui.hotkey('enter')
+    speak(ultron_message)
+

@@ -35,12 +35,18 @@ def takecommand():
 
 
 @eel.expose
-def allCommand():
+def allCommand(message=1):
     hotword_paused.set()   # tell hotword thread to stop reading the mic
 
-    try:
+    if (message==1):
         query = takecommand()
         print(query)
+    else:
+        query = message
+
+
+    try:
+        
         logging.info(f"allCommand query: {query}")
 
         if "open" in query:

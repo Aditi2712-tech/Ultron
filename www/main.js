@@ -44,22 +44,54 @@ $(document).ready(function () {
         
     });
 
+    function PlayAssistant(message) {
+        if (message != "") {
+
+            $("#Oval").attr("hidden", true);
+            $("#Siriwave").attr("hidden", false);
+            eel.allCommand(message);
+            $("#chatbox").val("")
+            $("#MicBtn").attr("hidden", false);
+            $("#SendBtn").attr("hidden",true);
+        }
+    }
+
+    function ShowHideBtn(message) {
+        if (message.length == 0) {
+            $("#MicBtn").attr("hidden", false);
+            $("#SendBtn").attr("hidden", true);
+        }
+        else {
+            $("#MicBtn").attr("hidden", true);
+            $("#SendBtn").attr("hidden", false);
+        }
+    }
+
+    $("#chatbox").keyup(function () {
+
+        let message = $("#chatbox").val();
+        ShowHideBtn(message)
+
+    });
+
+    $("#SendBtn").click(function () {
+
+        let message = $("#chatbox").val()
+        PlayAssistant(message)
+
+    });
+
+    $("#chatbox").keypress(function (e) {
+        key = e.which;
+        if (key == 13) { `13 is enter key in js`
+            let message = $("#chatbox").val()
+            PlayAssistant(message)
+        }
+    })
+
+
 });
 
-//     function doc_keyUp(e) {
-// // this would test for whichever key is 40 (down arrow) and windows key at same time
-
-//         if (e.key === 'u' && e.altKey) { //metakey is window
-//             eel.playAssisstantSound() //assistant sound activated
-//             $("#Oval").attr("hidden", true); //oval hidden
-//             $("#Siriwave").attr("hidden", false); //siriwave visible
-//             eel.allCommand()()
-//         }
-//     }
-
-//     document.addEventListener('keyup', doc_keyUp, false);
-
-// });
 
 
 eel.expose(showSiriWave);
@@ -77,3 +109,5 @@ function doc_keyUp(e) {
 }
 
 document.addEventListener('keyup', doc_keyUp, false);
+
+

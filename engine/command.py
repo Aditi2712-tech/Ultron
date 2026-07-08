@@ -43,7 +43,7 @@ def allCommand(message=1):
         print(query)
         eel.senderText(query)
     else:
-        query = message
+        query = message.lower()
         eel.senderText(query)
 
 
@@ -78,8 +78,9 @@ def allCommand(message=1):
             else:
                 logging.info("allCommand: contact_no was 0, skipping whatsApp call")
         else:
-            print("Not run")
-            logging.info("allCommand: query matched no known command")
+            from engine.features import chatbot
+            logging.info("allCommand: falling back to chatbot")
+            chatbot(query)
 
     except Exception as e:
         logging.exception("allCommand error")

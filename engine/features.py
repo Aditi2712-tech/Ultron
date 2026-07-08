@@ -315,8 +315,10 @@ def whatsApp(mobile_no, message, flag, name):
 # chat bot
 def chatbot(query):
     user_input = query.lower()
-    chatbot = hugchat.ChatBot(cookie_path="engine\cookies.json")
+    chatbot = hugchat.ChatBot(cookie_path="engine/cookies.json")
     id = chatbot.new_conversation()
     chatbot.change_conversation(id)
     response = chatbot.chat(user_input)
+    print(response)
+    speak(response)
     return response 

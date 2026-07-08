@@ -1,1 +1,13 @@
 /envultron
+contacts.csv
+Ultron.db
+/engine/__pycache__
+<<<<<<< HEAD
+/engine/cookies.json
+# Logs
+*.log
+logs/
+ultron_log.txt
+=======
+/engine/cookies.json
+>>>>>>> 5117ff287e165547fafc1a58d2741eee597cab70

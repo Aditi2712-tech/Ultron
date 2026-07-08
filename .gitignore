@@ -1,9 +1,1 @@
 /envultron
-contacts.csv
-Ultron.db
-/engine/__pycache__
-/engine/cookies.json
-# Logs
-*.log
-logs/
-ultron_log.txt

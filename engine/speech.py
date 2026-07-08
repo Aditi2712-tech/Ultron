@@ -9,4 +9,5 @@ def speak(text):
     engine.setProperty('rate', 175)
     eel.DisplayMessage(text)
     engine.say(text)
+    eel.receiverText(text)
     engine.runAndWait()

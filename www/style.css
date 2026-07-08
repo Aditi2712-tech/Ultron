@@ -266,3 +266,34 @@ body{
     font-style: italic;
     margin-left: 45px;
 }
+
+/*Chat Box*/
+.chat-canvas{
+    background-color: #191919;
+}
+.receiver_message{
+    padding: 8px;
+    border: 2px solid rgb(0, 128, 255);
+    border-radius: 0px 15px 15px 20px;
+    width: auto;
+    color: white;
+    background-color: #0dcaf014;
+    font-family: "Exo2";
+    font-size: medium;
+}
+
+.sender_message{
+    padding: 8px;
+    border: 1px solid #120c1b;
+    border-radius: 15px 15px 0px 20px;
+    width: auto;
+    color: white;
+    background-color: #1d1434;
+    font-family: 'Exo2';
+    font-size: medium;
+    font-style: bold;
+}
+.width-size{
+    max-width: 80%;
+    width: auto;
+}

@@ -49,7 +49,7 @@ $(document).ready(function () {
 
             $("#Oval").attr("hidden", true);
             $("#Siriwave").attr("hidden", false);
-            eel.allCommand(message);
+            eel.allCommand(message)();
             $("#chatbox").val("")
             $("#MicBtn").attr("hidden", false);
             $("#SendBtn").attr("hidden",true);
@@ -87,11 +87,9 @@ $(document).ready(function () {
             let message = $("#chatbox").val()
             PlayAssistant(message)
         }
-    })
-
+    });
 
 });
-
 
 
 eel.expose(showSiriWave);

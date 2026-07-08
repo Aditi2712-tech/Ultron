@@ -2,6 +2,7 @@ from shlex import quote
 import subprocess
 import logging
 
+from hugchat import hugchat
 import pyautogui
 import pygame
 import eel
@@ -309,3 +310,13 @@ def whatsApp(mobile_no, message, flag, name):
             speak("could not find the video call button on screen")
 
     logging.info("whatsApp function completed")
+
+
+# chat bot
+def chatbot(query):
+    user_input = query.lower()
+    chatbot = hugchat.ChatBot(cookie_path="engine\cookies.json")
+    id = chatbot.new_conversation()
+    chatbot.change_conversation(id)
+    response = chatbot.chat(user_input)
+    return response 

@@ -2,7 +2,7 @@ from shlex import quote
 import subprocess
 import logging
 
-from hugchat import hugchat
+from groq import Groq
 import pyautogui
 import pygame
 import eel
@@ -31,6 +31,8 @@ logging.info("=== features.py loaded ===")
 
 connection = sqlite3.connect("Ultron.db", check_same_thread=False)
 cursor = connection.cursor()
+
+groq_client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
 # initialize pygame mixer
 pygame.mixer.init()
@@ -315,10 +317,20 @@ def whatsApp(mobile_no, message, flag, name):
 # chat bot
 def chatbot(query):
     user_input = query.lower()
-    chatbot = hugchat.ChatBot(cookie_path="engine/cookies.json")
-    id = chatbot.new_conversation()
-    chatbot.change_conversation(id)
-    response = chatbot.chat(user_input)
-    print(response)
-    speak(response)
-    return response 
+    try:
+        response = groq_client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[
+                {"role": "system", "content": f"You are {ASSISTANT_NAME}, a helpful voice assistant. Keep replies short and conversational."},
+                {"role": "user", "content": user_input}
+            ],
+            max_tokens=300,
+        )
+        reply = response.choices[0].message.content
+        print(reply)
+        speak(reply)
+        return reply
+    except Exception as e:
+        logging.exception("chatbot error")
+        speak("I couldn't get a response right now")
+        return None

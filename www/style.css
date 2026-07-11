@@ -284,11 +284,11 @@ body{
 
 .sender_message{
     padding: 8px;
-    border: 1px solid #120c1b;
+    border: 1px solid #62c9a8;
     border-radius: 15px 15px 0px 20px;
     width: auto;
     color: white;
-    background-color: #1d1434;
+    background-color: #112828;
     font-family: 'Exo2';
     font-size: medium;
     font-style: bold;
